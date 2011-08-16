@@ -53,6 +53,9 @@ class NagiosData
 {
 	// Hold an instance of the class
 	private static $instance;
+	
+	// Storage for all necessary variables.  Replaces the many globals
+	protected $_vars;
 
 	protected static $property_list = array('hosts_objs', 'services_objs', 
 		'hostgroups_objs', 'servicegroups_objs', 'contacts', 'contactgroups', 
@@ -222,8 +225,7 @@ class NagiosData
 		trigger_error('Singleton', E_USER_ERROR);
 	}
 
-	// Storage for all necessary variables.  Replaces the many globals
-	protected $_vars;
+
 }
 
 ?>
