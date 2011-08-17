@@ -7,6 +7,7 @@ class NagiosUser
 {
 	global $NagiosData; 
 	private static $instance; 
+	public $username; 
 	
 	//boolean for users who can see and access all features 
 	protected $admin = false; 
@@ -27,6 +28,11 @@ class NagiosUser
 	protected $authServices = array(); 
 	protected $authHostgroups = array(); 
 	protected $authServicegroups = array(); 
+	
+	//constructor 
+	function __construct($username) {
+		$this->username = $username; 
+	}
 	
 	///////////////get methods 
 	public function get_authorized_hosts() {
