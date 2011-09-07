@@ -77,6 +77,12 @@ class NagiosData
 		self::$instance->__update();
 		return self::$instance;
 	}
+	
+	
+	public function dumpVars()
+	{
+		return $this->_vars; 
+	}
 
 	/* General purpose "getter" for protected properties
 	 *
@@ -179,14 +185,11 @@ class NagiosData
 			'hostgroups_objs', 'servicegroups_objs', 'contacts', 
 			'contactgroups', 'timeperiods', 'commands', 'hostgroups', 
 			'servicegroups', 'program');
-		self::$instance->_set_vars(cache_or_disk('objects', OBJECTSFILE, 
-			$disk_cache_keys));
+		self::$instance->_set_vars(cache_or_disk('objects', OBJECTSFILE, $disk_cache_keys));
 
-		self::$instance->_set_vars(cache_or_disk('perms', CGICFG, 
-			array('permissions')));
+		self::$instance->_set_vars(cache_or_disk('perms', CGICFG, array('permissions')));
 
-		self::$instance->_set_vars(cache_or_disk('status', STATUSFILE, 
-			array('hosts', 'services', 'comments', 'info', 'details', 'program')));
+		self::$instance->_set_vars(cache_or_disk('status', STATUSFILE, array('hosts', 'services', 'comments', 'info', 'details', 'program')));
 
 	}
 
