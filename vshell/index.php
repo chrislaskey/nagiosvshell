@@ -50,29 +50,39 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //hide error output in browser
-ini_set('display_errors','Off'); 
+ini_set('display_errors','On'); 
 
 session_start(); //no need for sessions at this time
 ob_start();
 
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
 
+
+
+
 init_vshell(); 
 
 $page_title = 'Nagios Visual Shell';
 
 //check_auth() needs to be revised to include other auth types and contact viewing of hosts 
-$username = get_user();
+//$username = false; 
+$username = 'mike';   
 
-//$username = 'nagiosadmin'; //uncomment this to only use apache authentication methods  
+$username = $NagiosUser->get_username();
+
+//////////////USE TO OVERRIDE APACHE AUTHENTICATION LOGIC: ///////////////////////////////
+//////////UNCOMMENTING THIS WILL LEAVE YOUR MONITORING ENVIRONMENT WIDE OPEN!!! ///////////////////////////
 
 
-if($username) //if logged in, display the page 
+if($username)  //if logged in, display the page 
 {
-	set_perms($username); //set global $authorization 		
+	//set_perms($username); //set global $authorization 		
 	page_router();
 }
 
+//$hosts = $NagiosData->getProperty('hostescalations'); 
+
+//echo "HEY<pre>".print_r($hosts,true)."</pre>"; 
 
 ob_end_flush();
 ?>

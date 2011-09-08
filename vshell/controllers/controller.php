@@ -92,31 +92,23 @@ function page_router()
 	switch($type) {
 		case 'services':
 		case 'hosts':
-			if ($authorizations[$type] == 1) {
 				$data = hosts_and_services_data($type, $state_filter, $name_filter);
 				$html_output_function = 'hosts_and_services_output';
-			}
 		break;
 
 		case 'hostgroups':
 		case 'servicegroups':
-			if($authorizations['hosts']==1)
-			{ 
-				if ($type == 'hostgroups' || ($type == 'servicegroups' && $authorizations['services']==1)) {
-					$data = hostgroups_and_servicegroups_data($type, $name_filter);
-					$html_output_function = 'hostgroups_and_servicegroups_output';
-				}
+			if ($type == 'hostgroups' || $type == 'servicegroups') 
+			{
+				$data = hostgroups_and_servicegroups_data($type, $name_filter);
+				$html_output_function = 'hostgroups_and_servicegroups_output';
 			}	
-
 		break;
 
 		case 'hostdetail':
 		case 'servicedetail':
-			if($authorizations['hosts']==1 && $name_filter)
-			{
 				$data = host_and_service_detail_data($type, $name_filter);
-				$html_output_function = 'host_and_service_detail_output';
-			}
+				$html_output_function = 'host_and_service_detail_output';			
 		break;
 
 		case 'object':
@@ -135,7 +127,7 @@ function page_router()
 		break;
 		
 		case 'backend':
-		$xmlout = tac_xml(get_tac_data());
+			$xmlout = tac_xml(get_tac_data());
 		break;
 
 		case 'overview':
@@ -160,20 +152,18 @@ function page_router()
 		break;
 
 		case 'xml':
-		if($type!='backend')
-		{
-			require_once(DIRBASE.'/views/xml.php');
-			$title = ucwords($type);
-			build_xml_page($data, $title);		
-			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
-		}
-		header('Content-type: text/xml');
-		if($type=='backend') echo $xmlout; //xml backend access for nagios fusion 
-			#$output = build_xml_data($data, $title);
+			if($type!='backend')
+			{
+				require_once(DIRBASE.'/views/xml.php');
+				$title = ucwords($type);
+				build_xml_page($data, $title);		
+				header('Location: '.BASEURL.'tmp/'.$title.'.xml');
+			}
+			header('Content-type: text/xml');
+			if($type=='backend') echo $xmlout; //xml backend access for nagios fusion 
+				#$output = build_xml_data($data, $title);
 		break;
-		case 'null':
-		
-		break; 
+
 	}
 	print $output;
 

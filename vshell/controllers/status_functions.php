@@ -90,6 +90,7 @@ function get_state_of($type, $array=NULL) //create host or service arrays by sta
 	{
 		$state_counts[$a['current_state']]++;
 	}
+		
 	
 	return $state_counts;					  
 }

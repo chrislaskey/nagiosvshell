@@ -60,7 +60,8 @@ class NagiosData
 	protected static $property_list = array('hosts_objs', 'services_objs', 
 		'hostgroups_objs', 'servicegroups_objs', 'contacts', 'contactgroups', 
 		'timeperiods', 'commands', 'hosts', 'services', 'comments', 'info',
-		'details', 'permissions', 'hostgroups', 'servicegroups', 'program');
+		'details', 'permissions', 'hostgroups', 'servicegroups', 'program',
+		'hostescalations','serviceescalations','hostdependencys','servicedependencys');
 
 	/*  Return, and build as necessary, the singleton to store nagios data
 	 *
@@ -184,7 +185,8 @@ class NagiosData
 		$disk_cache_keys = array('hosts_objs', 'services_objs', 
 			'hostgroups_objs', 'servicegroups_objs', 'contacts', 
 			'contactgroups', 'timeperiods', 'commands', 'hostgroups', 
-			'servicegroups', 'program');
+			'servicegroups', 'program','hostescalations','serviceescalations',
+			'hostdependencys','servicedependencys');
 		self::$instance->_set_vars(cache_or_disk('objects', OBJECTSFILE, $disk_cache_keys));
 
 		self::$instance->_set_vars(cache_or_disk('perms', CGICFG, array('permissions')));
@@ -205,6 +207,7 @@ class NagiosData
 		} else {
 			// XXX Do something better here
 			//fb($var, "Invalid property");
+			echo "invalid property <pre>".print_r($var,true)." ".print_r($value,true)." </pre>"; 
 		}
 	}
 
