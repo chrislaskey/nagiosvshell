@@ -56,6 +56,8 @@ function get_tac_data()
 	//print "<br /><br /><br /><br />";
 	global $username;
 	global $NagiosData;
+	global $NagiosUser; 	
+	
 	$now = time();
 	$info     = $NagiosData->getProperty('info');
 	$program  = $NagiosData->getProperty('program');
@@ -81,7 +83,7 @@ function get_tac_data()
 	'hostlink' => htmlentities(BASEURL.'index.php?type=hosts&state_filter='),
 	
 	//host counts 
-	'hostsTotal' =>  ($hoststates['UP'] + $hoststates['DOWN'] + $hoststates['UNREACHABLE']),
+	'hostsTotal' =>  ($hoststates['UP'] + $hoststates['DOWN'] + $hoststates['UNREACHABLE'] +$hoststates['PENDING']),
 	'hostsUpTotal' => $hoststates['UP'],
 	'hostsDownTotal' => $hoststates['DOWN'],
 	'hostsUnreachableTotal' => $hoststates['UNREACHABLE'],
@@ -165,6 +167,8 @@ function get_tac_data()
 	$hostStates = array(NULL, 'Down', 'Unreachable'); // used in tracking host states
 	foreach($hosts as $h)
 	{
+		if(!$NagiosUser->is_authorized_for_host($h['host_name'])) continue; 	//user-level filtering 
+	
 		//html specific data 		
 		if($h['flap_detection_enabled'] != 1) $tac_data['hostsFlappingDisabled']++;
 		if($h['is_flapping'] == 1) $tac_data['hostsFlapping']++;
@@ -201,7 +205,8 @@ function get_tac_data()
 	$serviceStates = array(NULL, 'Warning', 'Critical', 'Unknown'); // used in tracking service states
 	foreach($services as $s)
 	{
-	
+		if(!$NagiosUser->is_authorized_for_service($s['host_name'],$s['service_description'])) continue; 		
+		
 		//html specific data 		
 		if($s['flap_detection_enabled'] != 1) $tac_data['servicesFlappingDisabled']++;
 		if($s['is_flapping'] == 1)            $tac_data['servicesFlapping']++;

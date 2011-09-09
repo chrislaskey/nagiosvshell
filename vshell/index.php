@@ -57,32 +57,25 @@ ob_start();
 
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
 
-
-
-
+//load language and other sitewide settings 
 init_vshell(); 
-
-$page_title = 'Nagios Visual Shell';
-
-//check_auth() needs to be revised to include other auth types and contact viewing of hosts 
-//$username = false; 
-$username = 'mike';   
-
-$username = $NagiosUser->get_username();
 
 //////////////USE TO OVERRIDE APACHE AUTHENTICATION LOGIC: ///////////////////////////////
 //////////UNCOMMENTING THIS WILL LEAVE YOUR MONITORING ENVIRONMENT WIDE OPEN!!! ///////////////////////////
+//$username = false; 
+//$username = 'mike';   
 
-
+$username = $NagiosUser->get_username();
+//needs a username to do anything 
 if($username)  //if logged in, display the page 
 {
 	//set_perms($username); //set global $authorization 		
 	page_router();
 }
 
-//$hosts = $NagiosData->getProperty('hostescalations'); 
-
-//echo "HEY<pre>".print_r($hosts,true)."</pre>"; 
+//$hosts = $NagiosData->getProperty('hosts_objs'); 
+//$hosts = $NagiosUser->get_authorized_hosts(); 
+//echo "<pre>".print_r($hosts,true)."</pre>"; 
 
 ob_end_flush();
 ?>

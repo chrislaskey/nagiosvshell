@@ -78,15 +78,11 @@ function build_nav_links() //build page links based on user's permission level
 	$navlinks .= '<ul class="nav">'; 	
 	$navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>'; //default tactical overview link 
 		
-	if(isset($keys['hosts'], $keys['services'])) 
-	{		
-		$navlinks .= "<li class='nav'><a href='".$base."type=hosts' class='nav' rel='internal'>".gettext('Hosts')."</a></li>"; //hosts
-		$navlinks .= "<li class='nav'><a href='".$base."type=services' class='nav' rel='internal'>".gettext('Services')."</a></li>"; //services
-		$navlinks .= "<li class='nav'><a href='".$base."type=hostgroups' class='nav' rel='internal'>".gettext('Hostgroups')."</a></li>"; //hostgroups
-		$navlinks .= "<li class='nav'><a href='".$base."type=servicegroups' class='nav' rel='internal'>".gettext('Servicegroups')."</a></li>"; //servicegroups
-	}
-
-
+	$navlinks .= "<li class='nav'><a href='".$base."type=hosts' class='nav' rel='internal'>".gettext('Hosts')."</a></li>"; //hosts
+	$navlinks .= "<li class='nav'><a href='".$base."type=services' class='nav' rel='internal'>".gettext('Services')."</a></li>"; //services
+	$navlinks .= "<li class='nav'><a href='".$base."type=hostgroups' class='nav' rel='internal'>".gettext('Hostgroups')."</a></li>"; //hostgroups
+	$navlinks .= "<li class='nav'><a href='".$base."type=servicegroups' class='nav' rel='internal'>".gettext('Servicegroups')."</a></li>"; //servicegroups
+	
 	
 	/////////////OBJECT VIEWS 
 	if(isset($keys['configuration_information'])) //assuming full admin  
