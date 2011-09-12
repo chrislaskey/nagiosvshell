@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs for page NagiosUser.php</title>
+			<link rel="stylesheet" href="../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="file-name">/NagiosUser.php</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+							<a href="#sec-classes">Classes</a>
+			|											<a href="#sec-variables">Variables</a>
+			|							<a href="#sec-functions">Functions</a>
+			</div>
+	<div class="info-box-body">	
+		<!-- ========== Info from phpDoc block ========= -->
+		
+			</div>
+</div>
+		
+	<a name="sec-classes"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Classes</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+			<span class="disabled">Classes</span>
+			|													<a href="#sec-variables">Variables</a>
+				|										<a href="#sec-functions">Functions</a>
+					</div>
+		<div class="info-box-body">	
+			<table cellpadding="2" cellspacing="0" class="class-table">
+				<tr>
+					<th class="class-table-header">Class</th>
+					<th class="class-table-header">Description</th>
+				</tr>
+								<tr>
+					<td style="padding-right: 2em; vertical-align: top">
+						<a href="../default/NagiosUser.html">NagiosUser</a>
+					</td>
+					<td>
+											
+										</td>
+				</tr>
+							</table>
+		</div>
+	</div>
+
+	
+	
+	<a name="sec-variables"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|												<span class="disabled">Variables</span>
+			|							<a href="#sec-functions">Functions</a>
+					</div>
+		<div class="info-box-body">	
+			<a name="global$username" id="global$username"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="var-title">
+			<span class="var-type">string</span>
+			<span class="var-name">$username</span>
+						(line <span class="line-number">93</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">determines authorized user, checks for hard-coded name, then Basic Auth, then Digest auth.  Sets $this-&gt;username</p>
+	
+		
+</div>
+		</div>
+	</div>
+	
+	<a name="sec-functions"></a>	
+	<div class="info-box">
+		<div class="info-box-title">Functions</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+							<a href="#sec-classes">Classes</a>
+				|																<a href="#sec-variables">Variables</a>
+				|						<span class="disabled">Functions</span>
+		</div>
+		<div class="info-box-body">	
+			<a name="functionadd_escalated_hosts" id="functionadd_escalated_hosts"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">add_escalated_hosts</span> (line <span class="line-number">362</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">sweeps through host escalation definitions and adds to authHosts as needed</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			add_escalated_hosts
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionadd_escalated_services" id="functionadd_escalated_services"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">add_escalated_services</span> (line <span class="line-number">401</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">sweeps through escalation definitions and adds to $authHosts as needed</p>
+<p class="description"><p>sort through all service escalations in objects.cache and push appropriate services onto array stack 	NOTE host_name and service_descriptions are not comma delineated in objects.cache, all single definitions</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			add_escalated_services
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionauthorize" id="functionauthorize"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">authorize</span> (line <span class="line-number">142</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">sets authorization for user, also sets global $authorizations.  See authorizations.inc.php for auth list</p>
+	<ul class="tags">
+				<li><span class="field">TODO:</span> replace @global $authorizations array and encapsulate this in user object</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			authorize
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$auth</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$auth</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionbuild_authorized_objects" id="functionbuild_authorized_objects"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">build_authorized_objects</span> (line <span class="line-number">256</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">///////////////////////////////////////////////////</p>
+<p class="description"><p>main logic function for user-level filtering, builds $this-&gt;authHosts array 	CREATES SINGLE MULTI-D HEIRARCHY ARRAY 	LOGIC: - check for host contacts, and host contactgroups <ul><li>check for host escalations, and hostescalation contactgroups</li><li>check for service contacts, and service contactgroups</li><li>check for serviceescalation contacts, then serviceescalation contact groups</li></ul>  	ARRAY STRUCTURE 	$authObjects = 	array ( 'localhost' =&gt; array( 										'host_name' =&gt; 'localhost', 										'all_services' =&gt; true | false, 										'services'	=&gt; array( 0 =&gt; service1 <ol><li>=&gt; service2</li></ol>																	 3 =&gt; service3 )</p><p>)</p></p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			build_authorized_objects
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functiondetermine_admin" id="functiondetermine_admin"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">determine_admin</span> (line <span class="line-number">185</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">return:</span> decide if this user is an admin</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			determine_admin
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionget_authorized_hosts" id="functionget_authorized_hosts"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">get_authorized_hosts</span> (line <span class="line-number">155</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">gets list of authorized hosts for user</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> array of all authorized hosts and services</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">mixed</span>
+		<span class="method-name">
+			get_authorized_hosts
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionget_username" id="functionget_username"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">get_username</span> (line <span class="line-number">163</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns username</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> current user</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			get_username
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionif_has_authKey" id="functionif_has_authKey"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">if_has_authKey</span> (line <span class="line-number">177</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">return:</span> authorization key from cgi.cfg file</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			if_has_authKey
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$key</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$key</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionis_admin" id="functionis_admin"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">is_admin</span> (line <span class="line-number">171</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">returns boolean if user is admin</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> boolean if user has admin privileges and can see and do everything</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			is_admin
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+<a name="functionis_authorized_for_host" id="functionis_authorized_for_host"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">is_authorized_for_host</span> (line <span class="line-number">211</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">tests if user can view host</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			is_authorized_for_host
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$hostname</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$hostname</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionis_authorized_for_service" id="functionis_authorized_for_service"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">is_authorized_for_service</span> (line <span class="line-number">225</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">tests if user can view service</p>
+	
+	<div class="method-signature">
+		<span class="method-result">boolean</span>
+		<span class="method-name">
+			is_authorized_for_service
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$hostname</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$service</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$hostname</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$service</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionsetAuthKey" id="functionsetAuthKey"><!-- --></a>
+<div class="oddrow">
+	
+	<div>
+		<span class="method-title">setAuthKey</span> (line <span class="line-number">201</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">sets global auths from cgi.cfg file</p>
+	<ul class="tags">
+				<li><span class="field">return:</span> changes cgi.cfg booleans for current NagiosUser</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">null</span>
+		<span class="method-name">
+			setAuthKey
+		</span>
+					(<span class="var-type"></span>&nbsp;<span class="var-name">$keyname</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$value</span>)
+			</div>
+
+			<ul class="parameters">
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$keyname</span>			</li>
+					<li>
+				<span class="var-type"></span>
+				<span class="var-name">$value</span>			</li>
+				</ul>
+		
+	
+</div>
+<a name="functionset_perms" id="functionset_perms"><!-- --></a>
+<div class="evenrow">
+	
+	<div>
+		<span class="method-title">set_perms</span> (line <span class="line-number">125</span>)
+	</div> 
+
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">username is obtained from @global $_SERVER authorized user for nagios</p>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			set_perms
+		</span>
+				()
+			</div>
+
+		
+	
+</div>
+		</div>
+	</div>
+	
+	<p class="notes" id="credit">
+		Documentation generated on Mon, 12 Sep 2011 14:52:42 -0500 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+	</p>
+	</div></body>
+</html>
