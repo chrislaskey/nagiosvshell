@@ -50,22 +50,22 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //hide error output in browser
-ini_set('display_errors','On'); 
+ini_set('display_errors','Off'); 
 
 session_start(); //no need for sessions at this time
 ob_start();
+
+$username = false;
+//////////////USE TO OVERRIDE APACHE AUTHENTICATION LOGIC: ///////////////////////////////
+//////////UNCOMMENTING THIS WILL LEAVE YOUR MONITORING ENVIRONMENT WIDE OPEN!!! ///////////////////////////
+//$username = 'nagiosadmin';  
+
 
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
 
 //load language and other sitewide settings 
 init_vshell(); 
 
-//////////////USE TO OVERRIDE APACHE AUTHENTICATION LOGIC: ///////////////////////////////
-//////////UNCOMMENTING THIS WILL LEAVE YOUR MONITORING ENVIRONMENT WIDE OPEN!!! ///////////////////////////
-//$username = false; 
-//$username = 'mike';   
-
-$username = $NagiosUser->get_username();
 //needs a username to do anything 
 if($username)  //if logged in, display the page 
 {

@@ -5,12 +5,22 @@
 
 class NagiosUser
 {	
-	//boolean for users who can see and access all features 
+	/*
+	*	boolean for users who can see and access all features 
+	*	@var boolean $admin 
+	*/
 	protected $admin = false; 
-	//boolean for viewing all hosts and services 
+	
+	/*
+	*	boolean for viewing all hosts and services
+	*	@var boolean $sees_all 
+	*/
 	protected $sees_all = false; 
 
-	//array for storing global authorizations from cgi file
+	/**
+	*	array for storing global authorizations from cgi file
+	*	@var mixed $authKeys 
+	*/
 	protected $authKeys = array(
 		'authorized_for_all_host_commands' => false,
 		'authorized_for_all_hosts' => false,
@@ -22,7 +32,10 @@ class NagiosUser
 		'authorized_for_read_only' => true,	
 		);
 		
-	//MAIN AUTH ARRAY 
+	/**
+	*	MAIN AUTH ARRAY 
+	*	@var mixed $authHosts 
+	*/ 
 	protected $authHosts = array(); //see below for array structure 
 	/*
 		$authHosts = 
@@ -35,18 +48,25 @@ class NagiosUser
 																		 )
 											) 
 	*/
-	protected $cg_memberships = array(); //contactgroup memberships 
+	/**
+	*	contactgroup memberships
+	*	@var mixed $cg_memberships
+	*/
+	protected $cg_memberships = array(); 
+	
+	/**
+	*	current user
+	*	@var string username
+	*/ 
 	protected $username; 
 		
-	//constructor 
-	//initialize authorized hosts and services only upon construction and then (@TODO)cache data 
-	//TODO move towards session auth so this info gets updated upon login and restart of Nagios 	
-	function __construct($username=false) {
-		//some users have requested to turn off authentication or user other methods, this allows override and backwards compatibility 
-		if(!$username)
-			$this->username = $this->get_user(); 
-		else $this->username = $username; //for users that hard-code a username: NOT RECOMMENDED  
+	/**
+	*	constructor initializes authorized hosts and services and determines global privileges 
+	*	@TODO cache data and move towards session auth so this info gets updated upon login and restart of Nagios  	
+	*/
+	function __construct() {
 		
+		if(!$this->get_user()) exit('Access Denied: No authentication detected.'); 
 		//build main authKeys array (cgi.cfg settings) 
 		$this->set_perms(); 
 		//check if user can see everything 
@@ -63,37 +83,45 @@ class NagiosUser
 	
 	}
 	
+	/**
+	*	determines authorized user, checks for hard-coded name, then Basic Auth, then Digest auth.  Sets $this->username
+	*	@global string $username
+	*	@return string $this->username
+	*/
 	private function get_user()
 	{	
-		global $username;
+		global $username;  //some users have requested to turn off authentication or user other methods, this allows override and backwards compatibility 
 		//allow for basic auth override for backwards compatibility with early versions of V-Shell 
-		if($username) return $username; //TODO: eventually this will be removed, and auth will not be optional 
-		 
+		if($username)
+		{
+			$this->username = $username; 
+		}
 		// HTTP BASIC AUTHENTICATION through Nagios Core or XI 
 		//$remote_user="";
-		if(isset($_SERVER["REMOTE_USER"]))
+		elseif(isset($_SERVER["REMOTE_USER"]))
 		{	
 			$remote_user=$_SERVER["REMOTE_USER"];
 			//echo "REMOTE USER is set: $remote_user<br />";
-			return $remote_user;
+			$this->username =  $remote_user;
 		}
 		//digest authentication 
 		elseif(isset($_SERVER['PHP_AUTH_USER']))
 		{
 			//echo "Auth Digest detected".$_SERVER['PHP_AUTH_USER'];
-			return $_SERVER['PHP_AUTH_USER'];
+			$this->username =   $_SERVER['PHP_AUTH_USER'];
 		}
-		else
-		{
-			echo "Access Denied: No authentication detected.";
+
+		if(!$this->username)
 			return false; 
-		}	
-	 
+		else return $this->username; 	
+		 
 	}	
 	
-	////////////////////////////////////////////////////////////
-	//$username is obtained from $_SERVER authorized user for nagios 
-	//TODO: make this better.  All auth stuff needs to be handled here, no more global authorizations array 
+	/**
+	*	username is obtained from @global $_SERVER authorized user for nagios 
+	*	@TODO: make this better.  All auth stuff needs to be handled here, no more global authorizations array 
+	*	@global mixed $NagiosData
+	*/
 	private function set_perms()
 	{
 		global $NagiosData;
@@ -105,10 +133,12 @@ class NagiosUser
 			}				
 		}
 	}
-	//////////////////////////////////////////////////////
-	//
-	//activates authorization for user.  See authorizations.inc.php for auth list 
-	//
+	
+	/**
+	*	sets authorization for user, also sets global $authorizations.  See authorizations.inc.php for auth list
+	*	@TODO replace @global $authorizations array and encapsulate this in user object 
+	*	@global mixed $authorizations array 
+	*/
 	private function authorize($auth) //sets global permission 
 	{
 		global $authorizations; //global authorization array controller 
@@ -116,15 +146,18 @@ class NagiosUser
 		$this->authKeys[$auth] = true; //class auth controller 
 	}
 	
-	///////////////get methods 
+	///////////////get methods ///////////////////////
+	
 	/**
-	* @return mixed $authHosts array of all authorized hosts and services 
+	*	gets list of authorized hosts for user
+	*	@return mixed $authHosts array of all authorized hosts and services 
 	*/ 
 	public function get_authorized_hosts() {
 		return $this->authHosts; 
 	}
 	
 	/**
+	*	returns username 
 	*	@return string $username current user 
 	*/ 	
 	public function get_username() {
@@ -132,6 +165,7 @@ class NagiosUser
 	}	
 	
 	/**  
+	*	returns boolean if user is admin
 	*	@return boolean $admin boolean if user has admin privileges and can see and do everything 
 	*/
 	public function is_admin() {
@@ -216,6 +250,8 @@ class NagiosUser
 	*																	 3 => service3 )
 	*
 	*										) 
+	*
+	*	@global mixed $NagiosData object.cache array 
 	*/
 	private function build_authorized_objects() {
 		global $NagiosData;
@@ -228,7 +264,7 @@ class NagiosUser
 		foreach($contactgroups as $cg)
 		{
 			//echo $cg['contactgroup_name']; 
-			if(strpos($cg['members'],$this->username)!==false) 
+			if(in_array($this->username,explode(',',$cg['members'])) ) 
 				$this->cg_memberships[] = $cg['contactgroup_name']; 	//add contactgroup to array if user is a member of it 		
 		}
 				
@@ -237,7 +273,7 @@ class NagiosUser
 		{
 			//check is user is a direct contact 
 			$key = $host['host_name']; 
-			if(isset($host['contacts']) && strpos($host['contacts'],$this->username) !== false)
+			if(isset($host['contacts']) && in_array($this->username, explode(',',$host['contacts']))  )
 			{
 				$this->authHosts[$key] = array('host_name' => $key, 'all_services' => true, 'services' => array()); 							
 				continue; //skip to next host
@@ -276,7 +312,7 @@ class NagiosUser
 			if(isset($this->authHosts[$key]) && $this->authHosts[$key]['all_services'] == true) continue; 
 			
 			//check for authorization at the service level 
-			if(isset($service['contacts']) && (strpos($service['contacts'],$this->username) !== false)) //user is a contact 
+			if(isset($service['contacts']) && in_array($this->username, explode(',',$service['contacts']))  ) //user is a contact 
 			{
 				//echo $service['service_description']." : ".$service['contacts'];  								
 				//only add the service if it's not already there 
@@ -321,6 +357,7 @@ class NagiosUser
 		
 	/**
 	*	sweeps through host escalation definitions and adds to authHosts as needed 
+	*	@global mixed $NagiosData object.cache array 	
 	*/ 
 	private function add_escalated_hosts() 
 	{
@@ -333,7 +370,7 @@ class NagiosUser
 			if(isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services']==false) continue; 
 						
 			//check if user is a contact for escalation 
-			if(strpos($he['contacts'],$this->username) !==false) //if user is in list of contacts 
+			if(in_array($this->username,explode(',',$he['contacts'])) ) //if user is in list of contacts 
 			{	//add host if not already there, or if it's there but not all services are authorized 
 				if(!isset($this->authHosts[$he['host_name']]) || (isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services']==false) ) //don't overwrite existing arrays 
 					$this->authHosts[$he['host_name']] = array('host_name' => $he['host_name'], 'services' => array(), 'all_services' => true ); 
@@ -345,7 +382,7 @@ class NagiosUser
 			{
 				//compare arrays 
 				$matches = array_intersect(explode(',',$he['contact_groups']),$this->cg_memberships); 
-				if($matches !== false) // push host list into authHosts array  
+				if(!empty($matches)) // push host list into authHosts array  
 				{
 					if(!isset($this->authHosts[$he['host_name']]) || (isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services']==false) ) //don't overwrite existing arrays 
 						$this->authHosts[$he['host_name']] = array('host_name' => $he['host_name'], 'services' => array(), 'all_services' => true ); 
@@ -359,6 +396,7 @@ class NagiosUser
 	*	sweeps through escalation definitions and adds to $authHosts as needed 
 	*	sort through all service escalations in objects.cache and push appropriate services onto array stack 
 	*	NOTE host_name and service_descriptions are not comma delineated in objects.cache, all single definitions 
+	*	@global mixed $NagiosData object.cache array 	
 	*/ 
 	private function add_escalated_services()
 	{
@@ -371,7 +409,7 @@ class NagiosUser
 			if(isset($this->authHosts[$se['host_name']]) && $this->authHosts[$se['host_name']]['all_services'] == true) continue; 	
 					
 			//check if user is a contact for escalation 
-			if(isset($se['contacts']) && strpos($se['contacts'],$this->username) !==false) //if user is in list of contacts 
+			if(isset($se['contacts']) && in_array($this->username, explode(',',$se['contacts'])) ) //if user is in list of contacts 
 			{			
 				//check to see if host key exists in the array
 				if(!isset($this->authHosts[$se['host_name']])) //don't overwrite existing arrays 					
@@ -384,11 +422,10 @@ class NagiosUser
 			
 			//check if user's contactgroups are in the list
 			if(isset($se['contact_groups']))
-			{
-				
+			{				
 				//compare arrays 
 				$matches = array_intersect(explode(',',$se['contact_groups']),$this->cg_memberships); 
-				if($matches !== false) 
+				if(!empty($matches)) 
 				{ 		//check to see if array key exists yet 
 						if(!isset($this->authHosts[$se['host_name']]) ) //don't overwrite existing arrays 						
 							$this->authHosts[$se['host_name']] = array('host_name' => $se['host_name'], 'services' => array($se['service_description']),'all_services'=>false );															 

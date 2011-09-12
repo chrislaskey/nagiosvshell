@@ -137,6 +137,7 @@ function get_tac_data()
 	'servicesWarningDisabled' => 0,
 	'servicesCriticalDisabled' => 0,
 	'servicesUnknownDisabled' => 0,
+	'servicesTotalDisabled' => 0,
 	'servicesPending' => 0,
 	'servicesPendingDisabled' => 0, 
 	'servicesWarningHostProblem' => 0, 
@@ -219,7 +220,7 @@ function get_tac_data()
 		$current_host = $h_states[$s['host_name']];	
 		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 1) { $tac_data['servicesPending']++; continue; } //pending 
 		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 0) { $tac_data['servicesPendingDisabled']++;  continue;  } //pending 
-		if($s['active_checks_enabled'] == 0) $tac_data['servicesDisabled']++;
+		if($s['active_checks_enabled'] == 0) $tac_data['servicesTotalDisabled']++;
 
 		switch($s['current_state']) {
 			case 0:
